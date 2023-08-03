@@ -15,42 +15,44 @@ class ChildView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<GamificationProvider>();
-    return provider.showSummary
-        ? const SummaryScreen()
-        : Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              (provider.name != '' && screen.screenName != 'name')
-                  ? BuildTopTextHeading(provider: provider, screen: screen)
-                  : const SizedBox.shrink(),
-              const SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: Row(
-                  children: [
-                    Text(screen.question,
-                        style: textstyle.copyWith(
-                            fontSize: 28, color: const Color(0xFFFBAA29))),
-                  ],
+    return Consumer<GamificationProvider>(builder: (context, provider, child) {
+      return provider.showSummary
+          ? const SummaryScreen()
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 30),
+                (provider.name != '' && screen.screenName != 'name')
+                    ? BuildTopTextHeading(screen: screen)
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: Row(
+                    children: [
+                      Text(screen.question,
+                          style: textstyle.copyWith(
+                              fontSize: 28, color: const Color(0xFFFBAA29))),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.only(left: 15.0),
-                child: GenerateCustomField(screen: screen),
-              ),
-              const Spacer(),
-              BuildCustomButton(
-                isDisabled: context.watch<GamificationProvider>().name.isEmpty,
-                label: 'Next',
-                onPressed: () {
-                  if (provider.currentScreen.screenName == 'technology') {}
-                  context.read<GamificationProvider>().incrementIndex();
-                },
-              ),
-            ],
-          );
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0),
+                  child: GenerateCustomField(screen: screen),
+                ),
+                const Spacer(),
+                BuildCustomButton(
+                  isDisabled:
+                      context.watch<GamificationProvider>().name.isEmpty,
+                  label: 'Next',
+                  onPressed: () {
+                    if (provider.currentScreen.screenName == 'technology') {}
+                    provider.incrementIndex();
+                  },
+                ),
+              ],
+            );
+    });
   }
 }

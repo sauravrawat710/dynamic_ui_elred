@@ -14,20 +14,20 @@ class GenerateCustomField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.read<GamificationProvider>();
     if (screen.fields.contains('textfield')) {
       return BuildCustomTextField(
         label: screen.hintText ?? 'N/A',
         onChanged: (value) {
           if (screen.screenName == 'name') {
-            context.read<GamificationProvider>().onNameChanged(value);
+            provider.onNameChanged(value);
           } else {
-            context.read<GamificationProvider>().onDevelopChanged(value);
+            provider.onDevelopChanged(value);
           }
         },
       );
     } else if (screen.fields.contains('radio')) {
       if (screen.screenName != 'gender') {
-        final provider = context.read<GamificationProvider>();
         return Column(
             children: screen.options!
                 .map((option) => BuildCustomRadioButton(
@@ -36,11 +36,10 @@ class GenerateCustomField extends StatelessWidget {
                       value: option.value,
                       groupValue: _findGroupValue(screen, provider),
                       onChanged: (value) =>
-                          _onChangeForRadio(screen, context, value),
+                          _onChangeForRadio(screen, provider, value),
                     ))
                 .toList());
       } else {
-        final provider = context.read<GamificationProvider>();
         return Row(
             children: screen.options!
                 .map((e) => Expanded(
@@ -50,7 +49,7 @@ class GenerateCustomField extends StatelessWidget {
                         value: e.value,
                         groupValue: _findGroupValue(screen, provider),
                         onChanged: (value) =>
-                            _onChangeForRadio(screen, context, value),
+                            _onChangeForRadio(screen, provider, value),
                       ),
                     ))
                 .toList());
@@ -66,7 +65,7 @@ class GenerateCustomField extends StatelessWidget {
           );
 
           if (pickedDate != null) {
-            context.read<GamificationProvider>().onDobChanged(pickedDate);
+            provider.onDobChanged(pickedDate);
           }
         },
         child: SizedBox(
@@ -115,13 +114,14 @@ class GenerateCustomField extends StatelessWidget {
   }
 }
 
-void _onChangeForRadio(Screen screen, BuildContext context, String? value) {
+void _onChangeForRadio(
+    Screen screen, GamificationProvider provider, String? value) {
   if (screen.screenName == 'gender') {
-    context.read<GamificationProvider>().onGenderChange(value as String);
+    provider.onGenderChange(value as String);
   } else if (screen.screenName == 'profession') {
-    context.read<GamificationProvider>().onProfessionChanged(value as String);
+    provider.onProfessionChanged(value as String);
   } else {
-    context.read<GamificationProvider>().onDevelopChanged(value as String);
+    provider.onDevelopChanged(value as String);
   }
 }
 
