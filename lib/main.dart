@@ -1,5 +1,5 @@
-import 'package:dynamic_elred/presentation/screens/home_screen.dart';
-import 'package:dynamic_elred/provider/gamification_provider.dart';
+import 'presentation/screens/parent_screen.dart';
+import 'provider/gamification_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const HomeScreen(),
+        home: const ParentScreen(),
       ),
     );
   }

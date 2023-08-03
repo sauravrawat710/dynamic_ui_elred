@@ -22,7 +22,7 @@ class BuildCustomButton extends StatelessWidget {
           height: 47,
           decoration: ShapeDecoration(
             color: isDisabled
-                ? Color(0xFFFBAA29).withOpacity(.3)
+                ? const Color(0xFFFBAA29).withOpacity(.3)
                 : const Color(0xFFFBAA29),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),

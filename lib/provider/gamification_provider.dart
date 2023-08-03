@@ -1,21 +1,8 @@
-import 'package:dynamic_elred/models/dynamic.dart';
-import 'package:dynamic_elred/presentation/screens/backend_screen.dart';
-import 'package:dynamic_elred/presentation/screens/frontend_screen.dart';
-import 'package:dynamic_elred/presentation/screens/name_screen.dart';
-import 'package:dynamic_elred/presentation/screens/profession_screen.dart';
-import 'package:dynamic_elred/presentation/screens/gender_screen.dart';
-import 'package:dynamic_elred/presentation/screens/summary_screen.dart';
-import 'package:dynamic_elred/presentation/screens/dob_screen.dart';
-import 'package:dynamic_elred/presentation/screens/ui_ux_screen.dart';
-import 'package:dynamic_elred/services/gamification_service.dart';
+import '../models/gamification_model.dart';
 import 'package:flutter/material.dart';
 
 class GamificationProvider extends ChangeNotifier {
-  GamificationProvider() {
-    GamificationService.fetchJson().then((value) => response = value);
-  }
-
-  late Dynamic response;
+  late GamificationModel response;
 
   int _currentIndex = 0;
   double _progress = 0.0;
@@ -23,16 +10,18 @@ class GamificationProvider extends ChangeNotifier {
   int get currentIndex => _currentIndex;
   double get progress => _progress;
 
-  List<Widget> get screens => _screens;
-  Widget get currentScreen => _screens[_currentIndex];
+  List<Screen> get parentScreens => _parentScreens;
+  Screen get currentScreen => _parentScreens[_currentIndex];
+  List<Screen> _parentScreens = const [];
+
+  bool _showSummary = false;
+  bool get showSummary => _showSummary;
 
   String name = '';
   String gender = '';
   DateTime? dob;
   String profession = '';
   String develop = '';
-  String backendTechStack = '';
-  String uiux = '';
 
   void reset() {
     name = '';
@@ -40,10 +29,15 @@ class GamificationProvider extends ChangeNotifier {
     dob = null;
     profession = '';
     develop = '';
-    backendTechStack = '';
-    uiux = '';
     _currentIndex = 0;
     _progress = 0.0;
+    _showSummary = false;
+    notifyListeners();
+  }
+
+  void setResponseAndScreen(GamificationModel model) {
+    response = model;
+    _parentScreens = response.screens;
     notifyListeners();
   }
 
@@ -72,34 +66,36 @@ class GamificationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void onBackendTechStackChanged(String value) {
-    backendTechStack = value;
-    notifyListeners();
-  }
-
-  void onUIUXChanged(String value) {
-    uiux = value;
-    notifyListeners();
-  }
-
-  final List<Widget> _screens = const [
-    NameScreen(),
-    GenderScreen(),
-    DobScreen(),
-    ProfessionScreen(),
-    FrontendScreen(),
-    BackendScreen(),
-    UXScreen(),
-    SummaryScreen(),
-  ];
-
   void changeIndex(int index) {
     _currentIndex = index;
     notifyListeners();
   }
 
   void incrementIndex() {
-    if (_currentIndex < 8) {
+    if (currentScreen.childScreen != null) {
+      if (profession == 'a frontend developer') {
+        _parentScreens.addAll(currentScreen.childScreen!.frontend);
+        _currentIndex++;
+        _progress += 0.20;
+        notifyListeners();
+      }
+      if (profession == 'a backend developer') {
+        _parentScreens.addAll(currentScreen.childScreen!.backend);
+        _currentIndex++;
+        _progress += 0.20;
+        notifyListeners();
+      }
+      if (profession == 'a UI/UX designer') {
+        _parentScreens.addAll(currentScreen.childScreen!.designer);
+        _currentIndex++;
+        _progress += 0.20;
+        notifyListeners();
+      }
+    } else if (_currentIndex == parentScreens.length - 1) {
+      _showSummary = true;
+      _progress = 1.0;
+      notifyListeners();
+    } else if (_currentIndex < parentScreens.length - 1) {
       _currentIndex++;
       _progress += 0.20;
       notifyListeners();
@@ -107,7 +103,13 @@ class GamificationProvider extends ChangeNotifier {
   }
 
   void decrementIndex() {
-    if (_currentIndex > 0) {
+    if (currentScreen.screenName == 'technology') {
+      _parentScreens
+          .removeWhere((element) => element.screenName == 'technology');
+      _currentIndex--;
+      _progress -= 0.20;
+      notifyListeners();
+    } else if (_currentIndex > 0) {
       _currentIndex--;
       _progress -= 0.20;
       notifyListeners();

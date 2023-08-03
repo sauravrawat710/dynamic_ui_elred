@@ -1,24 +1,21 @@
 import 'dart:convert';
 
-Dynamic dynamicFromMap(String str) => Dynamic.fromMap(json.decode(str));
+GamificationModel gamificationFromMap(String str) =>
+    GamificationModel.fromMap(json.decode(str));
 
-String dynamicToMap(Dynamic data) => json.encode(data.toMap());
+String gamificationToMap(GamificationModel data) => json.encode(data.toMap());
 
-class Dynamic {
+class GamificationModel {
   final List<Screen> screens;
 
-  Dynamic({
-    required this.screens,
-  });
+  GamificationModel({required this.screens});
 
-  Dynamic copyWith({
-    List<Screen>? screens,
-  }) =>
-      Dynamic(
+  GamificationModel copyWith({List<Screen>? screens}) => GamificationModel(
         screens: screens ?? this.screens,
       );
 
-  factory Dynamic.fromMap(Map<String, dynamic> json) => Dynamic(
+  factory GamificationModel.fromMap(Map<String, dynamic> json) =>
+      GamificationModel(
         screens:
             List<Screen>.from(json["screens"].map((x) => Screen.fromMap(x))),
       );
@@ -67,14 +64,14 @@ class ChildScreen {
 }
 
 class Screen {
-  final String screenName;
-  final String heading;
-  final String question;
-  final String? hintText;
-  final List<String> fields;
+  String screenName;
+  String heading;
+  String question;
+  String? hintText;
+  List<String> fields;
   List<Option>? options;
-  final String? ans;
-  final ChildScreen? childScreen;
+  String? ans;
+  ChildScreen? childScreen;
 
   Screen({
     required this.screenName,
