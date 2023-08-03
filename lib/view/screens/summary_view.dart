@@ -1,18 +1,18 @@
 import '../../helpers/test_style.dart';
-import '../widgets/custom_button.dart';
-import '../../provider/gamification_provider.dart';
+import '../widgets/custom_button_widget.dart';
+import '../../viewModel/gamification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class SummaryScreen extends StatelessWidget {
-  const SummaryScreen({super.key});
+class SummaryView extends StatelessWidget {
+  const SummaryView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-      child: Consumer<GamificationProvider>(builder: (context, value, child) {
+      child: Consumer<GamificationViewModel>(builder: (context, value, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

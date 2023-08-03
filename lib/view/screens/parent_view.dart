@@ -1,19 +1,19 @@
 import '../../helpers/test_style.dart';
 import 'child_view.dart';
-import 'summary_screen.dart';
-import '../../provider/gamification_provider.dart';
+import 'summary_view.dart';
+import '../../viewModel/gamification_view_model.dart';
 import '../../services/gamification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ParentScreen extends StatefulWidget {
-  const ParentScreen({super.key});
+class ParentView extends StatefulWidget {
+  const ParentView({super.key});
 
   @override
-  State<ParentScreen> createState() => _ParentScreenState();
+  State<ParentView> createState() => _ParentViewState();
 }
 
-class _ParentScreenState extends State<ParentScreen> {
+class _ParentViewState extends State<ParentView> {
   bool _isLoading = false;
 
   @override
@@ -25,7 +25,7 @@ class _ParentScreenState extends State<ParentScreen> {
       setState(() {
         _isLoading = false;
       });
-      context.read<GamificationProvider>().setResponseAndScreen(value);
+      context.read<GamificationViewModel>().setResponseAndScreen(value);
     });
     super.initState();
   }
@@ -33,7 +33,7 @@ class _ParentScreenState extends State<ParentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<GamificationProvider>(
+      body: Consumer<GamificationViewModel>(
         builder: (context, value, child) => Container(
           color: Colors.black,
           child: Column(
@@ -49,7 +49,7 @@ class _ParentScreenState extends State<ParentScreen> {
                         if (value.currentIndex != 0)
                           IconButton(
                             onPressed: () {
-                              if (value.currentScreen is SummaryScreen) {
+                              if (value.currentScreen is SummaryView) {
                                 value.changeIndex(3);
                               } else {
                                 value.decrementIndex();

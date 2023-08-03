@@ -1,7 +1,8 @@
-import '../models/gamification_model.dart';
 import 'package:flutter/material.dart';
 
-class GamificationProvider extends ChangeNotifier {
+import '../models/gamification_model.dart';
+
+class GamificationViewModel extends ChangeNotifier {
   late GamificationModel response;
 
   int _currentIndex = 0;

@@ -1,5 +1,5 @@
-import 'presentation/screens/parent_screen.dart';
-import 'provider/gamification_provider.dart';
+import 'view/screens/parent_view.dart';
+import 'viewModel/gamification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => GamificationProvider(),
+      create: (context) => GamificationViewModel(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const ParentScreen(),
+        home: const ParentView(),
       ),
     );
   }

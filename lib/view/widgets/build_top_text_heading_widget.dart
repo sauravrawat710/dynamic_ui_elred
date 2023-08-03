@@ -2,7 +2,7 @@ import 'package:provider/provider.dart';
 
 import '../../helpers/test_style.dart';
 import '../../models/gamification_model.dart';
-import '../../provider/gamification_provider.dart';
+import '../../viewModel/gamification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -16,7 +16,7 @@ class BuildTopTextHeading extends StatelessWidget {
       padding: const EdgeInsets.only(left: 15.0),
       child: Row(
         children: [
-          Consumer<GamificationProvider>(
+          Consumer<GamificationViewModel>(
             builder: (context, provider, child) => Text.rich(
               TextSpan(
                 children: [

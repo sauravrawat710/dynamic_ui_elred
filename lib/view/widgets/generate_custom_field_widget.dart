@@ -1,11 +1,11 @@
 import '../../models/gamification_model.dart';
-import 'custom_textfield.dart';
-import '../../provider/gamification_provider.dart';
+import 'custom_textfield_widget.dart';
+import '../../viewModel/gamification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import 'custom_radio_button.dart';
+import 'custom_radio_button_widget.dart';
 
 class GenerateCustomField extends StatelessWidget {
   const GenerateCustomField({super.key, required this.screen});
@@ -14,7 +14,7 @@ class GenerateCustomField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.read<GamificationProvider>();
+    final provider = context.read<GamificationViewModel>();
     if (screen.fields.contains('textfield')) {
       return BuildCustomTextField(
         label: screen.hintText ?? 'N/A',
@@ -90,12 +90,12 @@ class GenerateCustomField extends StatelessWidget {
                 left: 15,
                 top: 12,
                 child: Text(
-                  context.watch<GamificationProvider>().dob != null
+                  context.watch<GamificationViewModel>().dob != null
                       ? DateFormat('dd/MM/yyyy')
-                          .format(context.watch<GamificationProvider>().dob!)
+                          .format(context.watch<GamificationViewModel>().dob!)
                       : 'Select date of birth',
                   style: TextStyle(
-                    color: context.watch<GamificationProvider>().dob != null
+                    color: context.watch<GamificationViewModel>().dob != null
                         ? null
                         : const Color(0x7F060606),
                     fontSize: 16,
@@ -115,7 +115,7 @@ class GenerateCustomField extends StatelessWidget {
 }
 
 void _onChangeForRadio(
-    Screen screen, GamificationProvider provider, String? value) {
+    Screen screen, GamificationViewModel provider, String? value) {
   if (screen.screenName == 'gender') {
     provider.onGenderChange(value as String);
   } else if (screen.screenName == 'profession') {
@@ -125,7 +125,7 @@ void _onChangeForRadio(
   }
 }
 
-String _findGroupValue(Screen screen, GamificationProvider provider) {
+String _findGroupValue(Screen screen, GamificationViewModel provider) {
   switch (screen.screenName) {
     case 'gender':
       return provider.gender;
@@ -139,11 +139,11 @@ String _findGroupValue(Screen screen, GamificationProvider provider) {
 bool _isSelected(Screen screen, BuildContext context, Option e) {
   switch (screen.screenName) {
     case 'gender':
-      return context.watch<GamificationProvider>().gender == e.value;
+      return context.watch<GamificationViewModel>().gender == e.value;
     case 'profession':
-      return context.watch<GamificationProvider>().profession == e.value;
+      return context.watch<GamificationViewModel>().profession == e.value;
     case 'technology':
-      return context.watch<GamificationProvider>().develop == e.value;
+      return context.watch<GamificationViewModel>().develop == e.value;
     default:
       return false;
   }

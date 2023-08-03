@@ -1,5 +1,6 @@
-import '../models/gamification_model.dart';
 import 'package:flutter/services.dart';
+
+import '../models/gamification_model.dart';
 
 class GamificationService {
   static Future<GamificationModel> fetchJson() async {

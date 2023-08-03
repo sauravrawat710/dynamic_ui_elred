@@ -1,10 +1,10 @@
 import '../../helpers/test_style.dart';
 import '../../models/gamification_model.dart';
-import 'summary_screen.dart';
-import '../widgets/build_top_text_heading.dart';
-import '../widgets/custom_button.dart';
+import 'summary_view.dart';
+import '../widgets/build_top_text_heading_widget.dart';
+import '../widgets/custom_button_widget.dart';
 import '../widgets/generate_custom_field_widget.dart';
-import '../../provider/gamification_provider.dart';
+import '../../viewModel/gamification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +15,9 @@ class ChildView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GamificationProvider>(builder: (context, provider, child) {
+    return Consumer<GamificationViewModel>(builder: (context, provider, child) {
       return provider.showSummary
-          ? const SummaryScreen()
+          ? const SummaryView()
           : Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -44,7 +44,7 @@ class ChildView extends StatelessWidget {
                 const Spacer(),
                 BuildCustomButton(
                   isDisabled:
-                      context.watch<GamificationProvider>().name.isEmpty,
+                      context.watch<GamificationViewModel>().name.isEmpty,
                   label: 'Next',
                   onPressed: () {
                     if (provider.currentScreen.screenName == 'technology') {}
